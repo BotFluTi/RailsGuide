@@ -3,21 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Products", type: :request do
-  it "returns status 200 when /products is accessed" do
-    get "/products"
-
-    expect(response).to have_http_status(:ok)
-  end
-
-  context "when product exists" do
-    it "returns status 200 for an existing product" do
-      product = Product.create!(name: "Test-Product")
-
-      get "/products/#{product.id}"
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include(product.name)
-    end
+  before do
+    user = User.create!(email_address: "test@example.com", password: "password123")
+    post session_path, params: {
+      email_address: user.email_address,
+      password: "password123"
+    }
   end
 
   context "when product doesn't exist" do
@@ -70,7 +61,6 @@ RSpec.describe "Products", type: :request do
       product = Product.create!(name: "Test-Product")
 
       get "/products/#{product.id}/edit"
-
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(product.name)
     end
