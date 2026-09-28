@@ -16,6 +16,7 @@ RSpec.describe "Products", type: :request do
       get "/products/#{product.id}"
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include(product.name)
     end
   end
 
@@ -32,6 +33,7 @@ RSpec.describe "Products", type: :request do
       get "/products/new"
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include("<form")
     end
   end
 
@@ -44,6 +46,10 @@ RSpec.describe "Products", type: :request do
       }.to change(Product, :count).by(1)
 
       expect(response).to redirect_to(product_path(Product.last))
+
+      follow_redirect!
+
+      expect(response.body).to include("Test-Product")
     end
   end
 
