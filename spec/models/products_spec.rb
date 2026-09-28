@@ -18,4 +18,15 @@ RSpec.describe Product, type: :model do
       expect(product).not_to be_valid
     end
   end
+
+  context "when product has an image" do
+    it "has an attached image" do
+      product = Product.create!(name: "Test-Product")
+      image = fixture_file_upload("spec/fixtures/test_image.png", "image/png")
+
+      product.featured_image.attach(image)
+
+      expect(product.featured_image).to be_attached
+    end
+  end
 end
