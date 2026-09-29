@@ -3,7 +3,11 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
   def index
-    @products = Product.all
+    @products = Product.includes(:brand).all.to_a
+
+    @products.each do |product|
+      puts product.name
+    end
   end
 
   def show
