@@ -1,0 +1,16 @@
+<%= debug @products %>
+
+<h1><%= t "hello" %></h1>
+<h1>Products</h1>
+
+<%= link_to "New product", new_product_path if authenticated? %>
+<%= link_to "Login", new_session_path unless authenticated? %>
+
+<div id="products">
+  <% @products.each do |product| %>
+    <div>
+      <%= product.name %>
+      <%= product.brand.name %>
+    </div>
+  <% end %>
+</div>
